@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const Post = require('./database/models/Post');
 const db_host = process.env.DB_HOST;
-mongoose.connect(db_host);
+mongoose.connect(db_host, { useNewUrlParser: true });
 
 // read from the database with find({}) = lists all objects in database. To find a single blog by title, use find({title:'Name of title'})
 Post.find({}, (error, posts) => {
