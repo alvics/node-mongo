@@ -4,16 +4,24 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 require('dotenv').config();
-const path = require('path');
 
+// Controllers
+const homePageController = require('./controllers/homePage');
+const creatPostController = require('./controllers/createPost');
+const getPostController = require('./controllers/getPost');
+const storePostController = require('./controllers/storePost');
+const aboutPageController = require('./controllers/aboutPage');
+const contactPageController = require('./controllers/contactPage');
+
+// setup
 const app = new express();
 const port = 4000;
 const db_host = process.env.DB_HOST;
-const Post = require('./database/models/Post');
 
 // Connect to mongoDB
 mongoose.connect(db_host, { useNewUrlParser: true });
 
+// Initialize
 app.use(express.static('public'));
 
 app.set('views', `${__dirname}/views`);
@@ -26,47 +34,19 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Register Middleware
+const storePost = require('./middleware/storePost');
+
+app.use('/posts/store', storePost);
+
 // Routes
-app.get('/', async (req, res) => {
-  const posts = await Post.find({});
-  res.render('index', {
-    posts
-  });
-});
+app.get('/', homePageController);
+app.get('/about', aboutPageController);
+app.get('/posts/new', creatPostController);
+app.post('/posts/store', storePostController);
+app.get('/post/:id', getPostController);
 
-app.get('/posts/new', (req, res) => {
-  res.render('create');
-});
-
-app.post('/posts/store', (req, res) => {
-  const { image } = req.files;
-  image.mv(path.resolve(__dirname, 'public/posts', image.name), error => {
-    Post.create(
-      {
-        ...req.body,
-        image: `public/posts/${image.name}`
-      },
-      (error, post) => {
-        res.redirect('/');
-      }
-    );
-  });
-});
-
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-
-app.get('/post/:id', async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  res.render('post', {
-    post
-  });
-});
-
-app.get('/contact', (req, res) => {
-  res.render('contact');
-});
+app.get('/contact', contactPageController);
 
 app.listen(port, () => {
   console.log(`app is listening on port ${port}`);
