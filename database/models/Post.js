@@ -1,4 +1,6 @@
-// create Post model
+// create Post model and Schema
+
+
 const mongoose = require('mongoose');
 
 // set posts
