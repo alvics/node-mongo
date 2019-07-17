@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+// const mongoose = require('mongoose');
+// require('dotenv').config();
 
-const Post = require('./database/models/Post');
-const db_host = process.env.DB_HOST;
-mongoose.connect(db_host, { useNewUrlParser: true });
+// const Post = require('./database/models/Post');
+// const db_host = process.env.DB_HOST;
+// mongoose.connect(db_host, { useNewUrlParser: true });
 
 // read from the database with find({}) = lists all objects in database. To find a single blog by title, use find({title:'Name of title'})
-Post.find({}, (error, posts) => {
-  console.log(error, posts);
-});
+// Post.find({}, (error, posts) => {
+//   console.log(error, posts);
+// });
 
 // find by ID
 // Post.findById('5d2a5bf1a246de3d0c6b9e18', (error, post) => {
