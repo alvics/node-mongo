@@ -5,6 +5,10 @@ const connectMongo = require('connect-mongo');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const session = require('express-session');
+const flash = require('connect-flash');
+const edge = require('edge.js');
+
+// .env
 require('dotenv').config();
 
 // Controllers
@@ -18,6 +22,7 @@ const createUserController = require('./controllers/createUser');
 const storeUserController = require('./controllers/storeUser');
 const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginUser');
+const logoutController = require('./controllers/logout');
 
 // Initialize / setup
 const app = new express();
@@ -28,7 +33,7 @@ const db_host = process.env.DB_HOST;
 mongoose.set('useCreateIndex', true);
 mongoose.connect(db_host, { useNewUrlParser: true });
 
-// set packages
+// register/set packages
 app.use(express.static('public'));
 
 app.set('views', `${__dirname}/views`);
@@ -40,6 +45,8 @@ app.use(expressEdge);
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(flash());
 
 // save session to database
 const mongoStore = connectMongo(session);
@@ -57,6 +64,12 @@ app.use(
 // Register Middleware
 const storePost = require('./middleware/storePost');
 const auth = require('./middleware/auth');
+const redirectIfAuth = require('./middleware/redirectIfAuth');
+
+app.use('*', (req, res, next) => {
+  edge.global('auth', req.session.userId);
+  next();
+});
 
 // Routes
 app.get('/', homePageController);
@@ -67,11 +80,15 @@ app.post('/posts/store', auth, storePost, storePostController);
 app.get('/post/:id', getPostController);
 
 // register/users
-app.get('/auth/register', createUserController);
-app.post('/users/register', storeUserController);
+app.get('/auth/register', redirectIfAuth, createUserController);
+app.post('/users/register', redirectIfAuth, storeUserController);
+
 // login/users
-app.get('/auth/login', loginController);
-app.post('/users/login', loginUserController);
+app.get('/auth/login', redirectIfAuth, loginController);
+app.post('/users/login', redirectIfAuth, loginUserController);
+
+// logout
+app.get('/auth/logout', redirectIfAuth, logoutController);
 
 app.listen(port, () => {
   console.log(`app is listening on port ${port}`);

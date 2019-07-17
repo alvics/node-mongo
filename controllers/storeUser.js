@@ -8,7 +8,10 @@ module.exports = (req, res) => {
         key => error.errors[key].message
       );
 
-      req.session.registrationErrors = registrationErrors;
+      // set flash function / store session error
+      req.flash('registrationErrors', registrationErrors);
+
+      req.flash('data', req.body);
 
       return res.redirect('/auth/register');
     }
