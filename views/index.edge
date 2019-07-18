@@ -29,10 +29,10 @@
             <h2 class="post-title"> {{ post.title }}</h2>
           </a>
 
-          <h3 class="subheading">{{ post.subtitle }}</h3>
+          <h3 class="sub-heading">{{ post.subtitle }}</h3>
 
           <p class="post-meta">Posted by
-          <a href="">{{ post.username }}</a>
+          <a href="">{{ post.author.username }}</a>
           on {{ post.createAt.toDateString() }}
           </p>
 
