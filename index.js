@@ -27,7 +27,7 @@ const logoutController = require('./controllers/logout');
 
 // Initialize / setup
 const app = new express();
-const port = proccess.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 
 // .env
 const db_host = process.env.DB_HOST;
