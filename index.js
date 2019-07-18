@@ -88,7 +88,10 @@ app.get('/auth/login', redirectIfAuth, loginController);
 app.post('/users/login', redirectIfAuth, loginUserController);
 
 // logout
-app.get('/auth/logout', redirectIfAuth, logoutController);
+app.get('/auth/logout', auth, logoutController);
+
+// 404 Page
+app.use((req, res) => res.render('404'));
 
 app.listen(port, () => {
   console.log(`app is listening on port ${port}`);
