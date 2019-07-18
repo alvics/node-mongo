@@ -1,25 +1,28 @@
 # NodeJS, ExpressJS & MongoDB
 
-This is a sample blog using NodeJS, ExpressJS, Mongo Db (using Atlas Cloud) and the Edge templating engine for views (express-edge).
+This is a blog theme using NodeJS, ExpressJS, Mongo DB (Atlas Cloud) and cloudinary (image hosting).
 
-### Npm Packages
+### npm Packages
 
-express-edge - template engine.
+```bash
 
-mongoose - connecting MongoDB
+express-edge #template engine.
 
-dotenv - to hide environment variables.
+mongoose #connecting MongoDB
 
-bcrypt - encrypt password in database.
+dotenv  #to hide environment variables.
 
-express-session - session /cookies storage.
+bcrypt  #encrypt password in database.
 
-connect-mongo - store session to database.
+express-session #session /cookies storage.
 
-body-parser - populate the req.body property.
+connect-mongo  #store session to database.
 
-connect-flash - hide validation errors on next request from server.
+body-parser  #populate the req.body property.
 
-express-fileupload - simple express middleware for uploading files.
+connect-flash  #hide validation errors on next request from server.
 
-cloudinary - deploy application for hosting
+express-fileupload  #simple express middleware for uploading files.
+
+cloudinary  #upload and save images files to cloudinary
+```

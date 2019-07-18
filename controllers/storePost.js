@@ -6,6 +6,7 @@ module.exports = (req, res) => {
   const { image } = req.files;
   const uploadPath = path.resolve(__dirname, '../public/posts/', image.name);
   image.mv(uploadPath, error => {
+    // upload to cloudinary
     cloudaniry.v2.uploader.upload(uploadPath, (error, result) => {
       if (error) {
         return res.redirect('/');
