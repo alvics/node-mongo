@@ -21,3 +21,5 @@ body-parser - populate the req.body property.
 connect-flash - hide validation errors on next request from server.
 
 express-fileupload - simple express middleware for uploading files.
+
+cloudinary - deploy application for hosting

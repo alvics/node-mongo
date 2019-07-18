@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const flash = require('connect-flash');
 const edge = require('edge.js');
+const cloudinary = require('cloudinary');
 
 // .env
 require('dotenv').config();
@@ -28,10 +29,20 @@ const logoutController = require('./controllers/logout');
 const app = new express();
 const port = 4000;
 const db_host = process.env.DB_HOST;
+const _api_key = process.env.API_KEY;
+const _api_secret = process.env.API_SECRET;
+const _cloud_name = process.env.CLOUD_NAME;
 
 // Connect to mongoDB
 mongoose.set('useCreateIndex', true);
 mongoose.connect(db_host, { useNewUrlParser: true });
+
+// connect cloudinary
+cloudinary.config({
+  api_key: _api_key,
+  api_secret: _api_secret,
+  cloud_name: _cloud_name
+});
 
 // register/set packages
 app.use(express.static('public'));
